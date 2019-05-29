@@ -1,0 +1,22 @@
+dist: xenial
+
+os:
+- linux
+
+language: go
+
+go:
+- "1.12"
+
+go_import_path: github.com/0xProject/0x-mesh
+
+install:
+- nvm use 11
+- curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+- travis_wait make deps-no-lockfile
+
+before_script:
+- docker run -d -p 8545:8545 0xorg/mesh-ganache-cli:5.0.0
+
+script:
+- make test-all
